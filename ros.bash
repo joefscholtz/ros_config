@@ -94,6 +94,8 @@ PS1D=$PS1
 #ros
 ros_local_prefix="local_"
 #ros1
+ros1_distro_names="box c diamondback electric fuerte groovy hydro indigo jade kinetic lunar melodic noetic"
 ros1_base="/opt/ros/$ros1_distro"
 #ros2
+ros2_distro_names="ardent bouncy cystal dashing eloquent foxy humble iron"
 ros2_base="/opt/ros/$ros2_distro"
