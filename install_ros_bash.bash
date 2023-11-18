@@ -1,3 +1,4 @@
+#!/bin/bash
 user_bash_rc="/home/$USER/.bashrc"
 ros_config_dir=$(pwd)
 echo '#ros

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 remove_paths () 
 { 
     IFS=':' read -ra PATHES <<< "$1";
@@ -89,8 +90,11 @@ ros_exit()
     export PS1="$PS1D";
 }
 
-
 PS1D=$PS1
+
+if [[ -f "${./ros_distro_config_profile}"]]; then
+	
+fi
 #ros
 ros_local_prefix="local_"
 #ros1
