@@ -1,3 +1,4 @@
 #custom ignore
 .ros_distro_config_profile
 .ros_config_profile
+*.swp

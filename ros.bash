@@ -1,7 +1,20 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash 
+
+if test -n "$ZSH_VERSION"; then
+	ros_config_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+elif test -n "$BASH_VERSION"; then
+	ros_config_dir=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
+else
+	ros_config_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+fi
+
 remove_paths () 
 { 
-    IFS=':' read -ra PATHES <<< "$1";
+	if test -n "$ZSH_VERSION"; then
+		IFS=":" read -rA PATHES <<< "$1";
+	elif test -n "$BASH_VERSION"; then
+		IFS=':' read -ra PATHES <<< "$1";
+	fi
     local THISPATH="";
     local path;
     for path in "${PATHES[@]}";
@@ -63,7 +76,7 @@ ros1ws ()
     local ROS1_COLOR="\[\033[35m\]"; #magenta
     local ROSVNAME="ROS-";
     export PS1="$ROS1_COLOR[$ROSVNAME$ROS_DISTRO]$PS1D";
-    source /usr/share/gazebo/setup.sh
+    . /usr/share/gazebo/setup.sh
 }
 
 ros2ws () 
@@ -79,7 +92,7 @@ ros2ws ()
     local ROS2_COLOR="\[\033[31m\]"; #red
     local ROSVNAME="ROS2-";
     export PS1="$ROS2_COLOR[$ROSVNAME$ROS_DISTRO]$PS1D";
-    source /usr/share/gazebo/setup.sh
+    . /usr/share/gazebo/setup.sh
 }
 
 ros_exit()
@@ -92,14 +105,22 @@ ros_exit()
 
 PS1D=$PS1
 
-if [[ -f "${./ros_distro_config_profile}"]]; then
-	
-fi
 #ros
+ros1_distro_names="box c diamondback electric fuerte groovy hydro indigo jade kinetic lunar melodic noetic"
+ros2_distro_names="ardent bouncy cystal dashing eloquent foxy humble iron"
+
+rdcp_file=$ros_config_dir/.ros_distro_config_profile
+if [[ -f "${rdcp_file}" ]]; then
+	. $rdcp_file
+fi
+
 ros_local_prefix="local_"
 #ros1
-ros1_distro_names="box c diamondback electric fuerte groovy hydro indigo jade kinetic lunar melodic noetic"
 ros1_base="/opt/ros/$ros1_distro"
 #ros2
-ros2_distro_names="ardent bouncy cystal dashing eloquent foxy humble iron"
 ros2_base="/opt/ros/$ros2_distro"
+
+rcp_file=$ros_config_dir/.ros_config_profile
+if [[ -f "${rcp_file}" ]]; then
+	. $rcp_file
+fi
